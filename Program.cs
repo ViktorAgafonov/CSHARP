@@ -19,10 +19,10 @@ namespace MyFirstApp
             int i = 0;          // 32 bit
             long l = 0;         // 64 bit
             decimal d = 0;      // 128 bit
-            string key;
+            
 
-            key = (string)Console.ReadKey();
-            Console.WriteLine($"Char: {key}, Byte: {b}");
+            
+            Console.WriteLine($"Char: {a}, Byte: {b}");
         }
     }
 }
