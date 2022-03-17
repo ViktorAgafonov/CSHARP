@@ -15,20 +15,19 @@ namespace MyFirstApp
             time.Start();
 
             decimal limit = 2000000;
+            decimal limitBorder = limit - Math.Ceiling(limit/3);
 
-            int temp1 = 0;
-            int temp2 = 0;
-            int result = 0;
+            decimal temp1 = 0;
+            decimal temp2 = limitBorder;
 
-            decimal limit1 = Math.Ceiling(limit/2);
-            decimal limit2 = limit - limit1;
+            decimal result = 0;
 
             Task task1 = new Task(() =>
             {
-                while (temp1 < limit1)
+                while (temp1 < limitBorder)
                 {
                     temp1++;
-                    for (int i = 2; i <= temp1; i++)
+                    for (decimal i = 2; i <= temp1; i++)
                     {
                         if (temp1 % i == 0 && i < temp1)
                         {
@@ -44,10 +43,10 @@ namespace MyFirstApp
 
             Task task2 = new Task(() =>
             {
-                while (temp2 < limit2)
+                while (temp2 < limit)
                 {
                     temp2++;
-                    for (int i = 2; i <= temp2; i++)
+                    for (decimal i = 2; i <= temp2; i++)
                     {
                         if (temp2 % i == 0 && i < temp2)
                         {
