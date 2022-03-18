@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MyFirstApp
@@ -14,62 +15,81 @@ namespace MyFirstApp
             Stopwatch time = new Stopwatch();
             time.Start();
 
-            decimal limit = 2000000;
-            decimal limitBorder = limit - Math.Ceiling(limit/3);
+            decimal result1 = 0;
+            decimal result2 = 0;
+            decimal result3 = 0;
 
-            decimal temp1 = 0;
-            decimal temp2 = limitBorder;
+            decimal limit = 20000;
+            decimal limit1 = limit - Math.Ceiling(limit/3);
+            decimal limit2 = limit - Math.Ceiling((limit - limit1)/3);
 
-            decimal result = 0;
-
-            Task task1 = new Task(() =>
+            decimal Task(decimal limitStart, decimal limitEnd)
             {
-                while (temp1 < limitBorder)
+                decimal temp = limitStart;
+                decimal result = 0;
+
+                while (temp < limitEnd)
                 {
-                    temp1++;
-                    for (decimal i = 2; i <= temp1; i++)
+                    temp++;
+
+                    for (decimal i = 2; i <= temp; i++)
                     {
-                        if (temp1 % i == 0 && i < temp1)
+                        if (temp % i == 0 && i < temp)
                         {
                             break;
                         }
-                        else if (temp1 % i == 0 && i == temp1)
+                        else if (temp % i == 0 && i == temp)
                         {
-                            result += temp1;
+                            result += temp;
                         }
                     }
                 }
-            });
+                return result;
+            }
 
-            Task task2 = new Task(() =>
+        var thread1 = new Thread(
+            () =>
             {
-                while (temp2 < limit)
-                {
-                    temp2++;
-                    for (decimal i = 2; i <= temp2; i++)
-                    {
-                        if (temp2 % i == 0 && i < temp2)
-                        {
-                            break;
-                        }
-                        else if (temp2 % i == 0 && i == temp2)
-                        {
-                            result += temp2;
-                        }
-                    }
-                }
+                result1 = Task(1, limit1);
             });
 
-            task1.Start();
-            task2.Start();
+        var thread2 = new Thread(
+            () =>
+            {
+                result2 = Task(limit1, limit2);
+            });
 
-            task1.Wait();
-            task2.Wait();
+        var thread3 = new Thread(
+            () =>
+            {
+                result3 = Task(limit2, limit);
+            });
+
+            thread1.Start();
+            thread2.Start();
+            thread3.Start();
+
+            thread1.Join();
+            thread2.Join();
+            thread3.Join();
+
 
             time.Stop(); 
-            Console.WriteLine(time.Elapsed); 
-            Console.WriteLine($"Result: {result}");
+            Console.WriteLine(time.Elapsed);
+            
+            Console.WriteLine($"Result: {result1 + result2 + result3}");
+            Console.WriteLine($"Limit1 = {limit1}; Limit2 = {limit2}; Limit = {limit}");
+
             Console.ReadKey();
         }
     }
 }
+//  object value = null; // Used to store the return value
+//  var thread = new Thread(
+//   () =>
+//   {
+//      value = "Hello World"; // Publish the return value
+//    });
+//   thread.Start();
+//  thread.Join();
+//  Console.WriteLine(value); // Use the return value here
