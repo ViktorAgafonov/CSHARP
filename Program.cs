@@ -12,15 +12,16 @@ namespace MyFirstApp
     {
         private static void Main(string[] args)
         {
-            Stopwatch time = new Stopwatch();
-            time.Start();
+            Stopwatch allTime = new Stopwatch();
+            allTime.Start();
 
             decimal result1 = 0;
             decimal result2 = 0;
             decimal result3 = 0;
             decimal result4 = 0;
 
-            decimal limit = 50000; // 25000 an 9.31 sec 40% \\ 50000 an 43sec
+            decimal limit = 60000; // 60000 - 1min
+
             decimal limit1 = limit - Math.Ceiling(limit/4);
             decimal limit2 = limit - Math.Ceiling((limit - limit1)/4);
             decimal limit3 = limit - Math.Ceiling((limit - limit2) / 4);
@@ -78,18 +79,15 @@ namespace MyFirstApp
             thread3.Start();
             thread4.Start();
 
-            thread1.Join();
-            thread2.Join();
-            thread3.Join();
             thread4.Join();
+            thread3.Join();
+            thread2.Join();
+            thread1.Join();
 
+            allTime.Stop(); 
 
-            time.Stop(); 
-            Console.WriteLine(time.Elapsed);
-            
+            Console.WriteLine(allTime.Elapsed);
             Console.WriteLine($"Result: {result1 + result2 + result3 + result4}");
-            Console.WriteLine($"Limit1 = {limit1}; Limit2 = {limit2}; Limit3 = {limit3}; Limit = {limit}");
-
             Console.ReadKey();
         }
     }
