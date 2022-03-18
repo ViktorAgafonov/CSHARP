@@ -14,7 +14,7 @@ namespace MyFirstApp
             Stopwatch time = new Stopwatch();
             time.Start();
 
-            decimal limit = 25000; // 10.7 sec
+            decimal limit = 50000; // 25000 an 10.7 sec 30%
             decimal limitBorder = limit - Math.Ceiling(limit/3);
 
             decimal temp1 = 0;
