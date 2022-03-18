@@ -19,7 +19,7 @@ namespace MyFirstApp
             decimal result2 = 0;
             decimal result3 = 0;
 
-            decimal limit = 25000; // 9.31 sec
+            decimal limit = 50000; // 25000 an 9.31 sec 40%
             decimal limit1 = limit - Math.Ceiling(limit/3);
             decimal limit2 = limit - Math.Ceiling((limit - limit1)/3);
 
