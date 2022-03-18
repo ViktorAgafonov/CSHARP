@@ -18,10 +18,12 @@ namespace MyFirstApp
             decimal result1 = 0;
             decimal result2 = 0;
             decimal result3 = 0;
+            decimal result4 = 0;
 
-            decimal limit = 50000; // 25000 an 9.31 sec 40%
-            decimal limit1 = limit - Math.Ceiling(limit/3);
-            decimal limit2 = limit - Math.Ceiling((limit - limit1)/3);
+            decimal limit = 50000; // 25000 an 9.31 sec 40% \\ 50000 an 43sec
+            decimal limit1 = limit - Math.Ceiling(limit/4);
+            decimal limit2 = limit - Math.Ceiling((limit - limit1)/4);
+            decimal limit3 = limit - Math.Ceiling((limit - limit2) / 4);
 
             decimal Task(decimal limitStart, decimal limitEnd)
             {
@@ -62,23 +64,31 @@ namespace MyFirstApp
         var thread3 = new Thread(
             () =>
             {
-                result3 = Task(limit2, limit);
+                result3 = Task(limit2, limit3);
+            });
+
+        var thread4 = new Thread(
+            () =>
+            {
+                result4 = Task(limit3, limit);
             });
 
             thread1.Start();
             thread2.Start();
             thread3.Start();
+            thread4.Start();
 
             thread1.Join();
             thread2.Join();
             thread3.Join();
+            thread4.Join();
 
 
             time.Stop(); 
             Console.WriteLine(time.Elapsed);
             
-            Console.WriteLine($"Result: {result1 + result2 + result3}");
-            Console.WriteLine($"Limit1 = {limit1}; Limit2 = {limit2}; Limit = {limit}");
+            Console.WriteLine($"Result: {result1 + result2 + result3 + result4}");
+            Console.WriteLine($"Limit1 = {limit1}; Limit2 = {limit2}; Limit3 = {limit3}; Limit = {limit}");
 
             Console.ReadKey();
         }
