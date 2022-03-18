@@ -84,12 +84,3 @@ namespace MyFirstApp
         }
     }
 }
-//  object value = null; // Used to store the return value
-//  var thread = new Thread(
-//   () =>
-//   {
-//      value = "Hello World"; // Publish the return value
-//    });
-//   thread.Start();
-//  thread.Join();
-//  Console.WriteLine(value); // Use the return value here
