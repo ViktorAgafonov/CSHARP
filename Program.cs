@@ -14,57 +14,27 @@ namespace MyFirstApp
             Stopwatch time = new Stopwatch();
             time.Start();
 
-            decimal limit = 60000; // 60000 - 56sec
-            decimal limitBorder = limit - Math.Ceiling(limit/3);
+            int limit = 50000;
+            int result = 0;
+            int count = 0;
+            int[] arr = new int[limit+1];
 
-            decimal temp1 = 0;
-            decimal temp2 = limitBorder;
+            for (int a = 0; a < arr.Length; a++)
+            { 
+                arr[a] = count;
+                count++;
+            }
 
-            decimal result = 0;
-
-            Task task1 = new Task(() =>
+            foreach (int i in arr)
             {
-                while (temp1 < limitBorder)
-                {
-                    temp1++;
-                    for (decimal i = 2; i <= temp1; i++)
+                if (i != 0 && i > 1){
+                    result += i;
+                    for (int n = i; n < arr.Length; n+=i)
                     {
-                        if (temp1 % i == 0 && i < temp1)
-                        {
-                            break;
-                        }
-                        else if (temp1 % i == 0 && i == temp1)
-                        {
-                            result += temp1;
-                        }
+                        arr[n] = 0;
                     }
                 }
-            });
-
-            Task task2 = new Task(() =>
-            {
-                while (temp2 < limit)
-                {
-                    temp2++;
-                    for (decimal i = 2; i <= temp2; i++)
-                    {
-                        if (temp2 % i == 0 && i < temp2)
-                        {
-                            break;
-                        }
-                        else if (temp2 % i == 0 && i == temp2)
-                        {
-                            result += temp2;
-                        }
-                    }
-                }
-            });
-
-            task1.Start();
-            task2.Start();
-
-            task1.Wait();
-            task2.Wait();
+            }
 
             time.Stop(); 
             Console.WriteLine(time.Elapsed); 
